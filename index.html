@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f5f7fb" />
+  <title>ParcelDesk — Campus Courier</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#" aria-label="ParcelDesk home">
+        <span class="brand-mark"><span class="brand-glyph">P</span></span>
+        <span><strong>parcel<span>desk</span></strong><small>CAMPUS COURIER</small></span>
+      </a>
+
+      <div class="workspace-label">WORKSPACE</div>
+      <nav class="nav-list" aria-label="Main navigation">
+        <button class="nav-link active" data-view="overview"><span class="nav-icon">▦</span> Overview</button>
+        <button class="nav-link" data-view="receive"><span class="nav-icon">＋</span> Receive parcel</button>
+        <button class="nav-link" data-view="student"><span class="nav-icon">⌕</span> Recipient lookup</button>
+        <button class="nav-link" data-view="verify"><span class="nav-icon">✓</span> Verify pickup</button>
+        <button class="nav-link" data-view="history"><span class="nav-icon">◷</span> Parcel history</button>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="desk-card">
+          <div class="desk-card-top"><span class="live-dot"></span> DESK STATUS <span class="desk-open">OPEN</span></div>
+          <strong>North Gate Desk</strong>
+          <p>Campus parcel collection point</p>
+          <div class="desk-hours"><span>Today’s hours</span><b>08:00 — 22:00</b></div>
+        </div>
+        <button class="nav-link" id="themeToggle"><span class="nav-icon">◐</span> Switch appearance</button>
+        <div class="profile">
+          <div class="avatar">AD</div>
+          <div><strong>Desk Admin</strong><small>Security team</small></div>
+          <span class="profile-dots">•••</span>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <button class="mobile-menu" id="mobileMenu" aria-label="Open menu">☰</button>
+        <div class="breadcrumb"><span>Workspace</span><b>/</b><strong id="crumb">Overview</strong></div>
+        <div class="top-actions">
+          <div class="today-chip"><span class="calendar-icon">▦</span><span id="todayLabel"></span></div>
+          <button class="icon-button" id="notificationButton" aria-label="Notifications">♧<i class="notification-dot"></i></button>
+          <button class="primary-button top-add" data-go="receive">＋ <span>New parcel</span></button>
+        </div>
+      </header>
+
+      <section class="content">
+        <section class="view active" id="view-overview">
+          <div class="page-heading">
+            <div><div class="eyebrow">CAMPUS OPERATIONS / NORTH GATE</div><h1>Good evening, Admin <span class="wave">✦</span></h1><p>Here’s what’s happening at your parcel desk today.</p></div>
+            <div class="heading-date"><span class="date-dot"></span> Live desk overview</div>
+          </div>
+
+          <div class="stats-grid">
+            <article class="stat-card stat-primary"><div class="stat-top"><span>Total parcels</span><span class="stat-icon">▤</span></div><div class="stat-value" id="statTotal">—</div><div class="stat-foot"><span class="trend-up">↗</span> All records in this browser</div><div class="stat-decoration"></div></article>
+            <article class="stat-card"><div class="stat-top"><span>Awaiting pickup</span><span class="stat-icon amber">◷</span></div><div class="stat-value" id="statPending">—</div><div class="stat-foot"><span class="mini-dot amber-bg"></span> Needs student collection</div></article>
+            <article class="stat-card"><div class="stat-top"><span>Delivered</span><span class="stat-icon green">✓</span></div><div class="stat-value" id="statDelivered">—</div><div class="stat-foot"><span class="mini-dot green-bg"></span> Successfully handed over</div></article>
+            <article class="stat-card"><div class="stat-top"><span>Received today</span><span class="stat-icon violet">✧</span></div><div class="stat-value" id="statToday">—</div><div class="stat-foot"><span class="mini-dot violet-bg"></span> New arrivals today</div></article>
+          </div>
+
+          <div class="dashboard-grid">
+            <section class="panel recent-panel">
+              <div class="panel-heading"><div><h2>Recent parcels</h2><p>Latest activity at the security desk</p></div><button class="text-button" data-go="history">View all <span>→</span></button></div>
+              <div class="table-wrap"><table><thead><tr><th>RECIPIENT</th><th>PARCEL ID</th><th>ARRIVED</th><th>STATUS</th></tr></thead><tbody id="recentRows"></tbody></table></div>
+              <div class="empty-state hidden" id="recentEmpty">No parcels yet. Receive your first parcel to get started.</div>
+            </section>
+            <section class="panel activity-panel">
+              <div class="panel-heading"><div><h2>Desk snapshot</h2><p>Collection progress</p></div><span class="round-icon">⌁</span></div>
+              <div class="progress-wrap"><div class="progress-meta"><span>Collection rate</span><strong id="collectionRate">0%</strong></div><div class="progress-track"><div class="progress-fill" id="progressFill"></div></div><p class="progress-note" id="progressNote">No parcel activity yet.</p></div>
+              <div class="snapshot-list"><div><span class="snapshot-bullet pending-bullet"></span><span>Pending parcels</span><strong id="snapshotPending">0</strong></div><div><span class="snapshot-bullet delivered-bullet"></span><span>Delivered parcels</span><strong id="snapshotDelivered">0</strong></div></div>
+              <div class="tip-box"><span>✦</span><p><strong>Desk tip</strong> Always verify the pickup token before handing over a parcel.</p></div>
+            </section>
+          </div>
+          <div class="quick-row"><div><span class="quick-icon">＋</span><div><strong>Parcel just arrived?</strong><small>Register it and create a pickup token.</small></div></div><button class="primary-button" data-go="receive">Register parcel <span>→</span></button></div>
+        </section>
+
+        <section class="view" id="view-receive">
+          <div class="page-heading"><div><div class="eyebrow">PARCEL MANAGEMENT</div><h1>Receive a parcel</h1><p>Add a new arrival to the campus collection desk.</p></div><span class="heading-icon">＋</span></div>
+          <div class="form-layout">
+            <section class="panel form-panel">
+              <div class="panel-heading"><div><h2>Parcel information</h2><p>Enter the details printed on the package or delivery record.</p></div><span class="step-label">STEP 01 / 01</span></div>
+              <form id="parcelForm">
+                <div class="form-grid">
+                  <label class="field"><span>Recipient type <i>*</i></span><select name="recipientType" id="recipientType" required><option value="Student">Student</option><option value="Faculty">Faculty</option><option value="Staff">Staff</option><option value="Other">Other</option></select></label>
+                  <label class="field"><span>Recipient full name <i>*</i></span><input name="studentName" required maxlength="60" placeholder="e.g. Rahul Sharma"></label>
+                  <label class="field"><span id="recipientIdLabel">University roll number *</span><input name="rollNumber" id="recipientId" required maxlength="24" placeholder="e.g. 12345678"></label>
+                  <label class="field" id="hostelField"><span>Hostel <i>*</i></span><select name="hostelBlock" id="hostelBlock"><option value="">Select hostel</option><optgroup label="Boys Hostels"><option>BH-01</option><option>BH-02</option><option>BH-03</option><option>BH-04</option><option>BH-05</option><option>BH-06</option><option>BH-07</option><option>BH-08</option></optgroup><optgroup label="Girls Hostels"><option>GH-01</option><option>GH-02</option><option>GH-03</option><option>GH-04</option><option>GH-05</option><option>GH-06</option><option>GH-07</option></optgroup><option>Boys Apartment</option><option>Other / Not listed</option></select></label>
+                  <label class="field" id="roomField"><span>Room number <small class="optional">OPTIONAL</small></span><input name="roomNumber" maxlength="20" placeholder="e.g. 214-B"></label>
+                  <label class="field hidden" id="departmentField"><span>Department / office</span><input name="department" maxlength="80" placeholder="e.g. CSE / Block 34"></label>
+                  <label class="field hidden" id="locationField"><span>Recipient location <i>*</i></span><input name="recipientLocation" id="recipientLocation" maxlength="100" placeholder="e.g. Block 34, Room 210"></label>
+                  <label class="field"><span>Courier partner <i>*</i></span><select name="courier" required><option value="">Select courier</option><option>Blue Dart</option><option>Delhivery</option><option>Amazon Logistics</option><option>Ekart</option><option>DTDC</option><option>India Post</option><option>Other</option></select></label>
+                  <label class="field"><span>Tracking number (last 4 digits)</span><input name="trackingLast4" inputmode="numeric" maxlength="4" pattern="[0-9]{4}" placeholder="e.g. 7821"><small>For quick desk reference only.</small></label>
+                  <label class="field full"><span>Additional note <small class="optional">OPTIONAL</small></span><textarea name="note" rows="3" maxlength="160" placeholder="Package condition, shelf location or other note…"></textarea></label>
+                </div>
+                <div class="form-footer"><span><i>*</i> Required fields</span><div><button type="reset" class="secondary-button">Clear form</button><button type="submit" class="primary-button">Save & generate token <span>→</span></button></div></div>
+              </form>
+            </section>
+            <aside class="side-info"><div class="info-card token-info"><div class="info-symbol">✧</div><h3>Automatic pickup token</h3><p>A unique 4-digit token is created when you save a parcel. Verify it before handover.</p><div class="token-sample"><span>•</span><span>•</span><span>•</span><span>•</span></div><small>ONE-TIME COLLECTION CHECK</small></div><div class="info-card"><h3>Before you save</h3><ul class="check-list"><li>Confirm the student’s roll number.</li><li>Check the parcel is labelled correctly.</li><li>Keep the parcel in the assigned desk area.</li></ul></div></aside>
+          </div>
+        </section>
+
+        <section class="view" id="view-student">
+          <div class="page-heading"><div><div class="eyebrow">RECIPIENT SELF-SERVICE</div><h1>Find a parcel</h1><p>Check whether your package has reached the campus desk.</p></div><span class="heading-icon">⌕</span></div>
+          <section class="panel lookup-panel"><div class="lookup-art">⌕</div><h2>Looking for a delivery?</h2><p>Enter your university ID or roll number to see parcels registered at the desk.</p><form id="studentSearchForm" class="lookup-form"><input id="studentRoll" required placeholder="Enter your university ID / roll number" autocomplete="off"><button class="primary-button" type="submit">Search parcels <span>→</span></button></form><div class="demo-hint">DEMO TIP <span>Try roll number <b>12345678</b> to explore sample data.</span></div></section>
+          <section class="lookup-results hidden" id="studentResults"><div class="results-heading"><div><h2>Search results</h2><p id="resultCaption"></p></div><button class="text-button" id="clearStudentSearch">Clear search ×</button></div><div id="studentCards" class="student-cards"></div></section>
+        </section>
+
+        <section class="view" id="view-verify">
+          <div class="page-heading"><div><div class="eyebrow">SECURE HANDOVER</div><h1>Verify pickup</h1><p>Confirm the student’s token before marking a parcel as collected.</p></div><span class="heading-icon">✓</span></div>
+          <div class="verify-layout">
+            <section class="panel verify-panel"><div class="verify-badge">✓</div><h2>Collection verification</h2><p>Enter the parcel ID and the 4-digit pickup token shared with the student.</p><form id="verifyForm"><label class="field"><span>Parcel ID</span><input id="verifyParcelId" required placeholder="e.g. PKG-1001"></label><label class="field"><span>4-digit pickup token</span><input id="verifyToken" required inputmode="numeric" maxlength="4" pattern="[0-9]{4}" placeholder="••••"></label><button class="primary-button full-button" type="submit">Verify & complete handover <span>→</span></button></form><div id="verifyMessage" class="message hidden"></div></section>
+            <aside class="info-card verify-guide"><h3>Verification checklist</h3><ul class="check-list"><li>Match the parcel ID with the package label.</li><li>Ask the student for their pickup token.</li><li>Confirm the token before handing over.</li><li>Never mark a parcel delivered without verification.</li></ul><div class="security-note"><span>♢</span><p><strong>Safety first</strong><br>This prototype demonstrates a basic token check. It is not secure authentication for a live campus deployment.</p></div></aside>
+          </div>
+        </section>
+
+        <section class="view" id="view-history">
+          <div class="page-heading"><div><div class="eyebrow">RECORDS & REPORTING</div><h1>Parcel history</h1><p>Search, filter and review all parcels recorded at this desk.</p></div><button class="secondary-button export-button" id="exportCsv">↓ Export CSV</button></div>
+          <section class="panel history-panel"><div class="history-toolbar"><div class="search-box"><span>⌕</span><input id="historySearch" placeholder="Search name, roll no. or parcel ID…"></div><select id="statusFilter" class="filter-select"><option value="all">All statuses</option><option value="Pending">Pending</option><option value="Delivered">Delivered</option></select><select id="sortFilter" class="filter-select"><option value="newest">Newest first</option><option value="oldest">Oldest first</option></select></div><div class="table-wrap"><table><thead><tr><th>PARCEL / STUDENT</th><th>DESTINATION</th><th>COURIER</th><th>RECEIVED</th><th>STATUS</th><th>ACTION</th></tr></thead><tbody id="historyRows"></tbody></table></div><div class="empty-state hidden" id="historyEmpty">No matching parcels found.</div><div class="table-foot"><span id="historyCount">0 records</span><button class="text-button" id="resetDemo">Reset demo data</button></div></section>
+        </section>
+      </section>
+      <footer class="footer"><span>© 2026 ParcelDesk</span><span>Campus parcel collection prototype <b>•</b> Data stays in this browser</span></footer>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"><span class="toast-icon">✓</span><span id="toastText">Saved successfully</span></div>
+  <div class="modal-backdrop hidden" id="modalBackdrop"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><button class="modal-close" id="modalClose" aria-label="Close">×</button><div class="modal-check">✓</div><div class="eyebrow">PARCEL REGISTERED</div><h2 id="modalTitle">Your parcel is in the system</h2><p id="modalDescription">Share this pickup token with the student.</p><div class="generated-token" id="generatedToken">0000</div><div class="modal-id" id="generatedParcelId">PKG-0000</div><div class="modal-actions"><button class="secondary-button" id="copyToken">Copy details</button><button class="primary-button" id="modalDone">Done</button></div><small class="modal-warning">Demo only — no SMS or email is sent.</small></div></div>
+  <script src="js/storage.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
